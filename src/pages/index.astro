@@ -8,6 +8,7 @@ import { PLAYERS, COACH } from "../data/players";
 import bgImage from "../assets/background/pmgc-new-bg.png";
 
 const roster = [...PLAYERS, COACH];
+const ogImageUrl = new URL(bgImage.src, SITE_CONFIG.siteUrl).toString();
 ---
 
 <!doctype html>
@@ -52,7 +53,7 @@ const roster = [...PLAYERS, COACH];
     <meta property="og:site_name" content="iQOO SouL Esports" />
     <meta property="og:title" content={`${SITE_CONFIG.teamName} — PMGC 2026 Istanbul | Player Card Arena`} />
     <meta property="og:description" content="Official tribute stage for iQOO SouL. 2026 Double National Champions representing India at PMGC Istanbul. Explore the squad cards and live match stream." />
-    <meta property="og:image" content={bgImage.src} />
+    <meta property="og:image" content={ogImageUrl} />
     <meta property="og:image:alt" content="iQOO SouL PMGC 2026 Istanbul Arena" />
 
     <!-- Twitter / X Cards -->
@@ -60,13 +61,14 @@ const roster = [...PLAYERS, COACH];
     <meta name="twitter:url" content={SITE_CONFIG.siteUrl} />
     <meta name="twitter:title" content={`${SITE_CONFIG.teamName} — PMGC 2026 Istanbul`} />
     <meta name="twitter:description" content="2026 Double National Champions representing India at PMGC 2026. Explore the player cards of Nakul, Legit, Joker, Goblin, Thunder, and Coach Ayogi." />
-    <meta name="twitter:image" content={bgImage.src} />
+    <meta name="twitter:image" content={ogImageUrl} />
 
     <!-- JSON-LD Structured Data (Schema.org) for Google Search -->
     <script type="application/ld+json" set:html={JSON.stringify({
       "@context": "https://schema.org",
       "@type": "SportsTeam",
       "name": SITE_CONFIG.teamName,
+      "url": SITE_CONFIG.siteUrl,
       "alternateName": ["Team SouL", "SouL Esports"],
       "sport": "PUBG Mobile / BGMI Esports",
       "description": "2026 Double National Champions (BGIS 2026 & BMSD 2026) representing India at PMGC Istanbul 2026.",

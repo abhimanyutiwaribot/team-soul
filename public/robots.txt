@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://teamsoul.in/sitemap.xml
+Sitemap: https://teamsoul-pmgc.pages.dev/sitemap.xml

@@ -1,5 +1,5 @@
 export const SITE_CONFIG = {
-  siteUrl: "https://teamsoul.pages.dev", // Update this when Cloudflare Pages domain is assigned
+  siteUrl: "https://teamsoul-pmgc.pages.dev",
   teamName: "iQOO SouL",
   shortName: "Team SouL",
   tagline: "Representing India at PMGC 2026",
