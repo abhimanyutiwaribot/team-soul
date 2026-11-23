@@ -26,6 +26,14 @@ const ogImageUrl = new URL(bgImage.src, SITE_CONFIG.siteUrl).toString();
     
     <meta name="generator" content={Astro.generator} />
 
+    <!-- Google Tag Manager / Analytics -->
+    <script async src="https://www.googletagmanager.com/gtm.js?id=GTM-K6KL9533"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    </script>
+
     <!-- High-Priority Preload for Background & Squad Cards during Intro -->
     <link rel="preload" href={bgImage.src} as="image" fetchpriority="high" />
     {roster.map((m) => (
