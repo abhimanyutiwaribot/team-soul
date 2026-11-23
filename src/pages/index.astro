@@ -1,16 +1,118 @@
 ---
+import "../styles/global.css";
+import { Image } from "astro:assets";
+import PlayerArenaStage from "../components/PlayerArenaStage.astro";
+import CinematicIntro from "../components/CinematicIntro.astro";
+import { SITE_CONFIG } from "../config";
+import { PLAYERS, COACH } from "../data/players";
+import bgImage from "../assets/background/pmgc-new-bg.png";
+
+const roster = [...PLAYERS, COACH];
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
+<!doctype html>
+<html lang="en" class="bg-[#05070a] text-gray-100 select-none overflow-x-hidden">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    
+    <!-- Favicon Package (Desktop, Android & Apple Devices) -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- High-Priority Preload for Background & Squad Cards during Intro -->
+    <link rel="preload" href={bgImage.src} as="image" fetchpriority="high" />
+    {roster.map((m) => (
+      <link rel="preload" href={m.cardImage.src} as="image" fetchpriority="high" />
+    ))}
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,400;0,600;0,700;1,700&family=Rajdhani:wght@500;600;700&family=Teko:wght@600;700&display=swap" rel="stylesheet">
+
+    <!-- Primary SEO Metadata -->
+    <title>{SITE_CONFIG.teamName} — PMGC 2026 | Player Card Arena</title>
+    <meta name="title" content={`${SITE_CONFIG.teamName} — PMGC 2026 | Player Card Arena`} />
+    <meta name="description" content="Official Tribute Player Card Stage for iQOO SouL (Team SouL). 2026 Double National Champions (BGIS 2026 & BMSD 2026) representing India at PMGC Istanbul." />
+    <meta name="keywords" content="iQOO SouL, Team SouL, PMGC 2026, PUBG Mobile Global Championship, BGMI, BGIS 2026 Champions, BMSD 2026, Nakul IGL, Legit, Joker, Goblin, Thunder, Coach Ayogi, SouL Esports, Istanbul PMGC" />
+    <meta name="author" content="Team SouL Fan Community" />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#00ff66" />
+    <link rel="canonical" href={SITE_CONFIG.siteUrl} />
+
+    <!-- Open Graph / Facebook / WhatsApp / Discord -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={SITE_CONFIG.siteUrl} />
+    <meta property="og:site_name" content="iQOO SouL Esports" />
+    <meta property="og:title" content={`${SITE_CONFIG.teamName} — PMGC 2026 Istanbul | Player Card Arena`} />
+    <meta property="og:description" content="Official tribute stage for iQOO SouL. 2026 Double National Champions representing India at PMGC Istanbul. Explore the squad cards and live match stream." />
+    <meta property="og:image" content={bgImage.src} />
+    <meta property="og:image:alt" content="iQOO SouL PMGC 2026 Istanbul Arena" />
+
+    <!-- Twitter / X Cards -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={SITE_CONFIG.siteUrl} />
+    <meta name="twitter:title" content={`${SITE_CONFIG.teamName} — PMGC 2026 Istanbul`} />
+    <meta name="twitter:description" content="2026 Double National Champions representing India at PMGC 2026. Explore the player cards of Nakul, Legit, Joker, Goblin, Thunder, and Coach Ayogi." />
+    <meta name="twitter:image" content={bgImage.src} />
+
+    <!-- JSON-LD Structured Data (Schema.org) for Google Search -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "SportsTeam",
+      "name": SITE_CONFIG.teamName,
+      "alternateName": ["Team SouL", "SouL Esports"],
+      "sport": "PUBG Mobile / BGMI Esports",
+      "description": "2026 Double National Champions (BGIS 2026 & BMSD 2026) representing India at PMGC Istanbul 2026.",
+      "member": [
+        { "@type": "Person", "name": "Nakul Sharma", "alternateName": "Nakul", "roleName": "In-Game Leader (IGL)" },
+        { "@type": "Person", "name": "Legit", "roleName": "Assaulter" },
+        { "@type": "Person", "name": "Joker", "roleName": "Support / Filter" },
+        { "@type": "Person", "name": "Goblin", "roleName": "Entry Fragger" },
+        { "@type": "Person", "name": "Thunder", "roleName": "Assaulter" },
+        { "@type": "Person", "name": "Ayogi", "roleName": "Head Coach" }
+      ],
+      "event": {
+        "@type": "SportsEvent",
+        "name": SITE_CONFIG.event.name,
+        "startDate": SITE_CONFIG.event.startDate,
+        "location": {
+          "@type": "Place",
+          "name": SITE_CONFIG.event.location
+        }
+      }
+    })} />
+  </head>
+  <body class="relative min-h-screen bg-[#05070a] text-gray-100 flex flex-col justify-between overflow-x-hidden">
+    
+    <!-- Cinematic Movie Intro -->
+    <CinematicIntro />
+
+    <!-- User's Official PMGC Background Image (Blurred for depth-of-field effect & darkened for card contrast) -->
+    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+      <Image
+        src={bgImage}
+        alt="PMGC Background"
+        class="w-full h-full object-cover object-center blur-sm scale-full brightness-50"
+        quality={100}
+        loading="eager"
+      />
+      <!-- Subtle dark tint overlay -->
+      <div class="absolute inset-0 bg-black/30"></div>
+    </div>
+
+    <div class="relative z-10 flex flex-col min-h-screen justify-center">
+      <!-- Center Stage: Player Card Arena -->
+      <main class="w-full flex flex-col justify-center">
+        <PlayerArenaStage />
+      </main>
+    </div>
+
+  </body>
 </html>

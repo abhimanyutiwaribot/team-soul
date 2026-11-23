@@ -1,0 +1,36 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --soul-green: #00ff66;
+    --soul-dark: #05070a;
+  }
+
+  body {
+    background-color: var(--soul-dark);
+    color: #e5e7eb;
+    font-family: 'Rajdhani', sans-serif;
+    overflow-x: hidden;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  h1, h2, h3, .font-display {
+    font-family: 'Teko', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .font-hud {
+    font-family: 'Chakra Petch', monospace;
+  }
+}
+
+/* Hide scrollbars for smooth native carousel */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

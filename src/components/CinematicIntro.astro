@@ -1,0 +1,108 @@
+---
+// Clean Cinematic Movie Intro for iQOO SouL
+---
+
+<div
+  id="cinematic-intro"
+  class="fixed inset-0 z-50 bg-black flex items-center justify-center select-none cursor-pointer overflow-hidden"
+  style="transition: opacity 3.5s cubic-bezier(0.25, 1, 0.5, 1);"
+>
+  <!-- Text 1: BGIS 2026 & BMSD 2026 CHAMPIONS -->
+  <div
+    id="intro-text-1"
+    class="absolute inset-0 flex items-center justify-center opacity-0 px-6 text-center select-none pointer-events-none"
+  >
+    <h1 class="text-white font-display text-3xl sm:text-5xl md:text-6xl font-bold tracking-[0.2em] sm:tracking-[0.3em] uppercase drop-shadow-[0_0_30px_rgba(255,255,255,0.4)] leading-tight">
+      BGIS 2026 &amp; BMSD 2026 CHAMPIONS
+    </h1>
+  </div>
+
+  <!-- Text 2: PMGC 2026 -->
+  <div
+    id="intro-text-2"
+    class="absolute inset-0 flex items-center justify-center opacity-0 px-6 text-center select-none pointer-events-none"
+  >
+    <h2 class="text-white font-display text-4xl sm:text-6xl md:text-7xl font-bold tracking-[0.25em] sm:tracking-[0.35em] uppercase drop-shadow-[0_0_35px_rgba(255,255,255,0.5)] leading-tight">
+      PMGC 2026
+    </h2>
+  </div>
+</div>
+
+<script>
+  function runCinematicIntro() {
+    const overlay = document.getElementById('cinematic-intro');
+    const text1 = document.getElementById('intro-text-1');
+    const text2 = document.getElementById('intro-text-2');
+
+    if (!overlay || !text1 || !text2) return;
+
+    let hasEnded = false;
+
+    function finishIntro(instant = false) {
+      if (hasEnded) return;
+      hasEnded = true;
+
+      if (instant) {
+        overlay.style.transition = 'opacity 0.6s ease-out';
+      } else {
+        overlay.style.transition = 'opacity 3.5s cubic-bezier(0.25, 1, 0.5, 1)';
+      }
+      overlay.style.opacity = '0';
+      overlay.style.pointerEvents = 'none';
+
+      setTimeout(() => {
+        overlay.remove();
+      }, instant ? 650 : 3800);
+    }
+
+    // Tap or key press allows smooth skip
+    overlay.addEventListener('click', () => finishIntro(true));
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' || e.key === ' ' || e.key === 'Enter') {
+        finishIntro(true);
+      }
+    });
+
+    // Pure Cinematic Movie Sequence:
+    // 1. 0s - 3s: Black screen
+    // 2. at 3.0s: Text 1 appears instantly
+    setTimeout(() => {
+      if (hasEnded) return;
+      text1.style.transition = 'none';
+      text1.style.opacity = '1';
+    }, 3000);
+
+    // 3. at 5.0s (after 2s visible): Text 1 fades away slowly
+    setTimeout(() => {
+      if (hasEnded) return;
+      text1.style.transition = 'opacity 1.8s cubic-bezier(0.4, 0, 0.2, 1)';
+      text1.style.opacity = '0';
+    }, 5000);
+
+    // 4. at 7.8s: Text 2 ("PMGC 2026") appears
+    setTimeout(() => {
+      if (hasEnded) return;
+      text2.style.transition = 'opacity 0.8s ease-out';
+      text2.style.opacity = '1';
+    }, 7800);
+
+    // 5. at 9.8s (after 2s visible): Text 2 fades away slowly
+    setTimeout(() => {
+      if (hasEnded) return;
+      text2.style.transition = 'opacity 1.8s cubic-bezier(0.4, 0, 0.2, 1)';
+      text2.style.opacity = '0';
+    }, 9800);
+
+    // 6. at 11.8s: Black screen dissolves slowly and smoothly directly into the website!
+    setTimeout(() => {
+      if (hasEnded) return;
+      finishIntro(false);
+    }, 11800);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', runCinematicIntro);
+  } else {
+    runCinematicIntro();
+  }
+</script>

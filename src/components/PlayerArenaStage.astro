@@ -1,0 +1,201 @@
+---
+import { Image } from 'astro:assets';
+import { PLAYERS, COACH } from '../data/players';
+import { SITE_CONFIG } from '../config';
+
+const roster = [...PLAYERS, COACH];
+---
+
+<div class="relative w-full min-h-screen flex flex-col justify-center items-center py-4 overflow-hidden select-none">
+  
+  <!-- Hero Section Countdown & Live Stream Banner in Crisp White Text -->
+  <div
+    id="hero-countdown"
+    data-target={SITE_CONFIG.event.startDate}
+    class="flex flex-col items-center justify-center text-white mb-2 sm:mb-3 select-none drop-shadow-md z-30"
+  >
+    <!-- Before kickoff: Live Countdown -->
+    <div id="countdown-ticker" class="flex items-baseline gap-1.5 sm:gap-3 md:gap-4 text-white font-hud font-bold tracking-wider pointer-events-none">
+      <span class="text-xs sm:text-lg md:text-xl opacity-80 uppercase tracking-[0.25em] mr-1">PMGC 2026</span>
+      <span id="cd-days" class="text-base sm:text-3xl md:text-4xl font-bold">--</span><span class="text-[10px] sm:text-sm md:text-base opacity-60 uppercase font-normal">d</span>
+      <span class="opacity-30 sm:text-xl md:text-2xl">:</span>
+      <span id="cd-hours" class="text-base sm:text-3xl md:text-4xl font-bold">--</span><span class="text-[10px] sm:text-sm md:text-base opacity-60 uppercase font-normal">h</span>
+      <span class="opacity-30 sm:text-xl md:text-2xl">:</span>
+      <span id="cd-mins" class="text-base sm:text-3xl md:text-4xl font-bold">--</span><span class="text-[10px] sm:text-sm md:text-base opacity-60 uppercase font-normal">m</span>
+      <span class="opacity-30 sm:text-xl md:text-2xl">:</span>
+      <span id="cd-secs" class="text-base sm:text-3xl md:text-4xl font-bold">--</span><span class="text-[10px] sm:text-sm md:text-base opacity-60 uppercase font-normal">s</span>
+    </div>
+
+    <!-- When Countdown Ends: Live Stream Button -->
+    <div id="countdown-live" class="hidden flex items-center justify-center">
+      <a
+        href={SITE_CONFIG.event.streamUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="group inline-flex items-center gap-2 px-3.5 sm:px-5 py-1.5 sm:py-2 rounded-full bg-red-600 hover:bg-red-500 text-white font-hud text-xs sm:text-sm font-bold tracking-wider uppercase transition-all shadow-[0_0_25px_rgba(220,38,38,0.7)] hover:scale-105 active:scale-95 pointer-events-auto"
+      >
+        <span class="w-2 h-2 rounded-full bg-white animate-ping"></span>
+        <span>PMGC 2026 IS LIVE • WATCH STREAM</span>
+        <svg class="w-4 h-4 ml-0.5 group-hover:translate-x-0.5 transition-transform" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M10 15l5.19-3L10 9v6m11.56-7.83c.13.47.22 1.1.28 1.9.07.8.1 1.49.1 2.09L22 12c0 2.19-.16 3.8-.44 4.83-.25.9-.83 1.48-1.73 1.73-.47.13-1.33.22-2.65.28-1.3.07-2.49.1-3.59.1L12 19c-4.19 0-6.8-.16-7.83-.44-.9-.25-1.48-.83-1.73-1.73-.13-.47-.22-1.1-.28-1.9-.07-.8-.1-1.49-.1-2.09L2 12c0-2.19.16-3.8.44-4.83.25-.9.83-1.48 1.73-1.73.47-.13 1.33-.22 2.65-.28 1.3-.07 2.49-.1 3.59-.1L12 5c4.19 0 6.8.16 7.83.44.9.25 1.48.83 1.73 1.73z"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- Mobile Top Swipe Text -->
+  <div class="block sm:hidden text-white font-hud text-[11px] font-semibold tracking-[0.35em] uppercase text-center mb-2 opacity-80 select-none pointer-events-none drop-shadow-md">
+    Swipe
+  </div>
+
+  <!-- Web / Desktop Top Text -->
+  <div class="hidden sm:block text-white font-hud text-sm md:text-base font-semibold tracking-[0.25em] uppercase text-center mb-3 opacity-80 select-none pointer-events-none drop-shadow-md">
+    Use arrow keys to swipe
+  </div>
+
+  <!-- Native Smooth Snap Carousel -->
+  <div
+    id="card-carousel"
+    class="w-full flex items-center gap-6 overflow-x-auto snap-x snap-mandatory no-scrollbar py-4 px-[calc(50vw-min(44vw,200px))] scroll-smooth"
+  >
+    {roster.map((member, idx) => (
+      <div
+        class="snap-center flex-shrink-0 h-[72vh] max-h-[700px] max-w-[88vw] aspect-[1240/1748] flex items-center justify-center select-none"
+        data-index={idx}
+      >
+        <div
+          class="w-full h-full card-float-wrap flex items-center justify-center"
+          style={`animation-delay: ${(idx % 2) * 1.8}s;`}
+        >
+          <Image
+            src={member.cardImage}
+            alt={`${member.ign} Card - iQOO SouL`}
+            class="w-full h-full object-contain pointer-events-none drop-shadow-[0_8px_10px_rgba(0,0,0,0.45)]"
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
+            quality={100}
+            width={1240}
+            height={1748}
+          />
+        </div>
+      </div>
+    ))}
+  </div>
+
+</div>
+
+<style>
+  /* Ultra-minimal, subtle breathing hover for player cards */
+  @keyframes cardLevitate {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-4px);
+    }
+  }
+  .card-float-wrap {
+    animation: cardLevitate 6s ease-in-out infinite;
+    will-change: transform;
+  }
+</style>
+
+<script>
+  function setupNativeCarousel() {
+    const carousel = document.getElementById('card-carousel');
+    if (!carousel) return;
+
+    // Pre-decode all card images into GPU memory during the intro
+    const cardImgs = carousel.querySelectorAll<HTMLImageElement>('img');
+    cardImgs.forEach((img) => {
+      if (typeof img.decode === 'function') {
+        img.decode().catch(() => {});
+      }
+    });
+
+    // Keyboard arrow navigation snapping card by card
+    window.addEventListener('keydown', (e) => {
+      const cards = carousel.querySelectorAll<HTMLElement>('.snap-center');
+      if (!cards.length) return;
+      const step = (cards[0].offsetWidth || 400) + 24;
+
+      if (e.key === 'ArrowRight') {
+        carousel.scrollBy({ left: step, behavior: 'smooth' });
+      } else if (e.key === 'ArrowLeft') {
+        carousel.scrollBy({ left: -step, behavior: 'smooth' });
+      }
+    });
+
+    // Desktop click-and-drag horizontal scroll
+    let isDown = false;
+    let startX = 0;
+    let scrollLeft = 0;
+
+    carousel.addEventListener('mousedown', (e) => {
+      isDown = true;
+      startX = e.pageX - carousel.offsetLeft;
+      scrollLeft = carousel.scrollLeft;
+    });
+
+    window.addEventListener('mouseup', () => {
+      isDown = false;
+    });
+
+    window.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - carousel.offsetLeft;
+      const walk = (x - startX) * 1.5;
+      carousel.scrollLeft = scrollLeft - walk;
+    });
+
+    // Real-time Countdown timer logic
+    const cdContainer = document.getElementById('hero-countdown');
+    if (cdContainer) {
+      const targetStr = cdContainer.getAttribute('data-target') || '2026-11-26T00:00:00+03:00';
+      const targetTime = new Date(targetStr).getTime();
+      const tickerEl = document.getElementById('countdown-ticker');
+      const liveEl = document.getElementById('countdown-live');
+      const dEl = document.getElementById('cd-days');
+      const hEl = document.getElementById('cd-hours');
+      const mEl = document.getElementById('cd-mins');
+      const sEl = document.getElementById('cd-secs');
+
+      function updateCountdown() {
+        const diff = targetTime - Date.now();
+        if (diff <= 0) {
+          if (tickerEl) tickerEl.classList.add('hidden');
+          if (liveEl) liveEl.classList.remove('hidden');
+          return;
+        }
+
+        if (tickerEl && tickerEl.classList.contains('hidden')) {
+          tickerEl.classList.remove('hidden');
+        }
+        if (liveEl && !liveEl.classList.contains('hidden')) {
+          liveEl.classList.add('hidden');
+        }
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const mins = Math.floor((diff / (1000 * 60)) % 60);
+        const secs = Math.floor((diff / 1000) % 60);
+
+        if (dEl) dEl.textContent = String(days).padStart(2, '0');
+        if (hEl) hEl.textContent = String(hours).padStart(2, '0');
+        if (mEl) mEl.textContent = String(mins).padStart(2, '0');
+        if (sEl) sEl.textContent = String(secs).padStart(2, '0');
+      }
+
+      updateCountdown();
+      setInterval(updateCountdown, 1000);
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupNativeCarousel);
+  } else {
+    setupNativeCarousel();
+  }
+</script>
