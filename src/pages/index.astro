@@ -96,16 +96,26 @@ const roster = [...PLAYERS, COACH];
 
     <!-- User's Official PMGC Background Image (Blurred for depth-of-field effect & darkened for card contrast) -->
     <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-      <Image
-        src={bgImage}
+      <img
+        id="bg-arena-image"
+        src={bgImage.src}
         alt="PMGC Background"
         class="w-full h-full object-cover object-center blur-sm scale-full brightness-50"
-        quality={100}
         loading="eager"
+        fetchpriority="high"
+        decoding="sync"
       />
       <!-- Subtle dark tint overlay -->
       <div class="absolute inset-0 bg-black/30"></div>
     </div>
+
+    <script>
+      // Pre-decode and upload background image into GPU VRAM during the intro
+      const bg = document.getElementById('bg-arena-image') as HTMLImageElement | null;
+      if (bg && typeof bg.decode === 'function') {
+        bg.decode().catch(() => {});
+      }
+    </script>
 
     <div class="relative z-10 flex flex-col min-h-screen justify-center">
       <!-- Center Stage: Player Card Arena -->
